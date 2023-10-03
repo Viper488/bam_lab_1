@@ -10,13 +10,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class TimeService : Service() {
+    private var username: String? = null
+    private var second = 0
     private var isLogging = false
     private val logTag = "TimeService"
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         isLogging = true
-        sendBroadcast(intent)
+        username = intent.getStringExtra("username")
         intent.getStringExtra(IDENTIFIER_EXTRA)?.let { startLogging(it) }
         return START_STICKY
     }
@@ -26,14 +28,13 @@ class TimeService : Service() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         isLogging = false
-        Log.i(logTag, "Stopped all instances")
+        sendBroadcast()
+        super.onDestroy()
     }
 
     private fun startLogging(identifier: String) {
         coroutineScope.launch {
-            var second = 0;
             while (isLogging) {
                 second++
                 Log.i(logTag + identifier, "Instance: $identifier Logging to LogCat every second: $second")
@@ -42,7 +43,16 @@ class TimeService : Service() {
         }
     }
 
+    private fun sendBroadcast() {
+        val stopLogging = Intent("pk.lab1.STOP_LOGGING")
+        stopLogging.putExtra(USERNAME, username)
+        stopLogging.putExtra(NUMBER, second)
+        sendBroadcast(stopLogging)
+    }
+
     companion object {
+        const val USERNAME = "username"
+        const val NUMBER = "number"
         const val IDENTIFIER_EXTRA = "identifier_extra"
     }
 }

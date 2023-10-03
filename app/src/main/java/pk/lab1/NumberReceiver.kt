@@ -7,10 +7,9 @@ import android.util.Log
 
 class NumberReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
+        val username = intent.getStringExtra(TimeService.USERNAME)
+        val number = intent.getIntExtra(TimeService.NUMBER, 0)
 
-        val username = intent.getStringExtra("username")
-        val number = intent.getDoubleExtra("number", 0.0)
-
-        Log.d("NumberReceiver", "Username: $username, number: $number")
+        Log.i("NumberReceiver", "Username: $username, number: $number")
     }
 }

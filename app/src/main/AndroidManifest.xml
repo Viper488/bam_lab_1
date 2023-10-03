@@ -41,10 +41,13 @@
             android:label="TimeService"
             >
         </service>
-        <receiver android:name="NumberReceiver"
-            android:exported="true">
+        <receiver android:name=".NumberReceiver"
+            android:enabled="true"
+            android:exported="false"
+            >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="pk.lab1.STOP_LOGGING" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
     </application>

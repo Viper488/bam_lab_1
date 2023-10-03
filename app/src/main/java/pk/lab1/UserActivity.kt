@@ -14,7 +14,7 @@ class UserActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_activity)
-        registerReceiver(receiver, IntentFilter())
+        registerReceiver(receiver, IntentFilter("pk.lab1.STOP_LOGGING"))
 
         val start = findViewById<Button>(R.id.start)
         val stop = findViewById<Button>(R.id.stop)
@@ -23,6 +23,7 @@ class UserActivity : ComponentActivity() {
         val service = Intent(this, TimeService::class.java)
 
         start.setOnClickListener {
+            service.putExtra(TimeService.USERNAME, username.text)
             service.putExtra(TimeService.IDENTIFIER_EXTRA, serviceCounter.incrementAndGet().toString())
             service.putExtra("username", username.text)
 
