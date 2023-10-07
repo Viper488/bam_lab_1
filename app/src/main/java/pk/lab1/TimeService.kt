@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import pk.lab1.Const.BROADCAST
 
 class TimeService : Service() {
     private var username: String? = null
@@ -44,7 +45,7 @@ class TimeService : Service() {
     }
 
     private fun sendBroadcast() {
-        val stopLogging = Intent("pk.lab1.STOP_LOGGING")
+        val stopLogging = Intent(BROADCAST)
         stopLogging.putExtra(USERNAME, username)
         stopLogging.putExtra(NUMBER, second)
         sendBroadcast(stopLogging)

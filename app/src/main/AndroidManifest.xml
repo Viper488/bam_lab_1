@@ -41,7 +41,7 @@
             android:label="TimeService"
             >
         </service>
-        <receiver android:name=".NumberReceiver"
+        <receiver android:name=".receiver.NumberReceiver"
             android:enabled="true"
             android:exported="false"
             >
@@ -50,6 +50,11 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
+        <provider
+            android:name="pk.lab1.provider.Provider"
+            android:authorities="pk.lab1.provider"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

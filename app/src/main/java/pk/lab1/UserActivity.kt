@@ -2,14 +2,20 @@ package pk.lab1
 
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.room.Room
+import pk.lab1.Const.BROADCAST
+import pk.lab1.Const.DATABASE_NAME
+import pk.lab1.Const.PROVIDER_NAME
 import pk.lab1.database.TimeDatabase
+import pk.lab1.receiver.NumberReceiver
 import java.util.concurrent.atomic.AtomicInteger
+
 
 class UserActivity : ComponentActivity() {
     private val receiver = NumberReceiver()
@@ -17,12 +23,12 @@ class UserActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_activity)
-        registerReceiver(receiver, IntentFilter("pk.lab1.STOP_LOGGING"))
+        registerReceiver(receiver, IntentFilter(BROADCAST))
 
 
         val db = Room.databaseBuilder(
             applicationContext,
-            TimeDatabase::class.java, "time-database"
+            TimeDatabase::class.java, DATABASE_NAME
         ).allowMainThreadQueries().build()
         val start = findViewById<Button>(R.id.start)
         val stop = findViewById<Button>(R.id.stop)
