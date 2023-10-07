@@ -33,6 +33,7 @@ class UserActivity : ComponentActivity() {
         val start = findViewById<Button>(R.id.start)
         val stop = findViewById<Button>(R.id.stop)
         val read = findViewById<Button>(R.id.read)
+        val readProvider = findViewById<Button>(R.id.readProvider)
         val username = findViewById<TextView>(R.id.usernameView)
         username.text = intent.getStringExtra("username")
         val service = Intent(this, TimeService::class.java)
@@ -52,6 +53,25 @@ class UserActivity : ComponentActivity() {
         read.setOnClickListener {
             db.timeDao().getAll().forEach {time ->
                 Log.i("Database",  "Username: ${time.username}, number: ${time.number}")
+            }
+        }
+
+        readProvider.setOnClickListener {
+            val cursor = contentResolver.query(
+                Uri.parse("content://pk.lab1.provider/time"),
+                null,
+                null,
+                null,
+                null
+            )
+
+            if (cursor!!.moveToFirst()) {
+                while (!cursor.isAfterLast) {
+                    Log.i("ContentProvider",  "Username: ${cursor.getString(cursor.getColumnIndex("username"))}, number: ${cursor.getInt(cursor.getColumnIndex("number"))}")
+                    cursor.moveToNext()
+                }
+            } else {
+                Log.d("ContentProvider",  "No records found")
             }
         }
     }
