@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <permission
+        android:name="pk.lab1.provider.READ"
+        android:protectionLevel="normal" />
 
     <application
         android:allowBackup="true"
@@ -52,9 +55,10 @@
         </receiver>
         <provider
             android:name="pk.lab1.provider.Provider"
-            android:authorities="pk.lab1.provider"
+            android:authorities="pk.lab1;pk.lab1.provider"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true"
+            android:readPermission="pk.lab1.provider.READ"/>
     </application>
 
 </manifest>
